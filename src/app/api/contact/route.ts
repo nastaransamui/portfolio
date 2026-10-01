@@ -34,6 +34,7 @@ export async function POST(req: Request) {
       message: `Email was send to: ${info.accepted[0]}`,
     });
   } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { success: false, message: String(error) },
       { status: 500 },
