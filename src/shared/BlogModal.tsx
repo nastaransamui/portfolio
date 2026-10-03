@@ -22,7 +22,11 @@ const BlogModal: FC = () => {
           <div className="description_wrap">
             <div className="news_popup_details">
               <div className="top_image">
-                <img src="img/4-2.jpg" alt="" />
+                <img
+                  style={{ width: 100 }}
+                  src={selectedPost?.img || 'img/4-2.jpg'}
+                  alt={selectedPost?.title || ''}
+                />
                 <div
                   className="main"
                   style={{
@@ -31,7 +35,7 @@ const BlogModal: FC = () => {
                 ></div>
               </div>
               <div className="news_main_title">
-                <h3>{selectedPost?.title || 'title'}</h3>
+                <h3 style={{ fontFamily: 'ROBOTO_CONDENSED_FONT' }}>{selectedPost?.title || 'title'}</h3>
                 <span>
                   <a href="#">{selectedPost?.tag || ''}</a>
                 </span>

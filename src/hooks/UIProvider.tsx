@@ -25,7 +25,7 @@ type UIState = {
 const UIContext = createContext<UIState | null>(null)
 
 export function UIProvider({ children }: { children: ReactNode }) {
-  const [nav, setNav] = useState('home')
+  const [nav, setNav] = useState('')
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [stretchyOpen, setStretchyOpen] = useState(false)
   const [activeProject, setActiveProject] = useState<number | null>(null)

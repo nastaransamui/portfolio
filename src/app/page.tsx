@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef } from 'react';
 import { useUI } from 'src/hooks/UIProvider';
 import BlogModal from 'src/shared/BlogModal';
 import Header from 'src/shared/Header';
@@ -41,21 +41,27 @@ export default function Home() {
     return () => window.removeEventListener('resize', handleResize);
   }, [setIsMobile, setMobileMenuOpen]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
+    let mounted = true;
+
     const handleHash = () => {
       const currentHash = window.location.hash.replace('#', '');
-      if (currentHash && ['home', 'about', 'work', 'contact', 'blog'].includes(currentHash)) {
-        setNav(currentHash);
-        if (window.innerWidth < 1025 && currentHash !== 'home') {
-          setMobileMenuOpen(true);
-        }
+      const nextNav = ['home', 'about', 'work', 'contact', 'blog'].includes(currentHash)
+        ? currentHash
+        : 'home';
+
+      setNav(nextNav);
+      if (window.innerWidth < 1025 && nextNav !== 'home') {
+        setMobileMenuOpen(true);
       }
     };
 
-    const timer = setTimeout(handleHash, 0);
+    queueMicrotask(() => {
+      if (mounted) handleHash();
+    });
     window.addEventListener('hashchange', handleHash);
     return () => {
-      clearTimeout(timer);
+      mounted = false;
       window.removeEventListener('hashchange', handleHash);
     };
   }, [setMobileMenuOpen, setNav]);

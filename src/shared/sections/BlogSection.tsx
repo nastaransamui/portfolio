@@ -12,7 +12,7 @@ const BlogSection: FC = () => {
           latest <span>posts</span>
         </h2>
         <span className="title-head-subtitle">
-          tips, insights, and best practices about web developpment
+          practical lessons from real frontend and platform engineering work
         </span>
       </div>
       <div className="container">
@@ -29,7 +29,7 @@ const BlogSection: FC = () => {
                       setBlogModalOpen(true);
                     }}
                   >
-                    <img className="img-fluid" src={post.img} alt="" />
+                    <img className="img-fluid" src={post.img} alt={post.title} />
                   </a>
                   <div className="post-date">
                     <span>{post.date.day}</span>

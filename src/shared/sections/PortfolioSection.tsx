@@ -2,9 +2,6 @@
 import { FC } from 'react';
 import { useUI } from 'src/hooks/UIProvider';
 import { projects } from '../constants';
-import YouTubeVideo from '../YouTubeVideo';
-import Slider from '../Slider';
-import VideoPlayer from '../VideoPlayer';
 
 const PortfolioSection: FC = () => {
   const { nav, activeProject, setActiveProject } = useUI();
@@ -27,7 +24,6 @@ const PortfolioSection: FC = () => {
                   <li key={idx} className="col-12 col-md-6 col-lg-4">
                     <a
                       href="#"
-                      data-type="project-1"
                       onClick={(e) => {
                         e.preventDefault();
                         setActiveProject(idx);
@@ -51,17 +47,14 @@ const PortfolioSection: FC = () => {
       {projects.map((proj, idx) => (
         <div
           key={idx}
-          className={`project-info-container project-1 ${activeProject === idx ? 'slide-in' : ''}`}
+          className={`project-info-container ${activeProject === idx ? 'slide-in' : ''}`}
         >
           <div className="project-info-main-content">
-            {proj.format === 'img' && <img src={proj.img} alt="Project Image" />}
-            {proj.format === 'youtube' && <YouTubeVideo playing={activeProject === idx} />}
-            {proj.format === 'slider' && <Slider />}
-            {proj.format === 'video' && <VideoPlayer playing={activeProject === idx} />}
+            <img src={proj.img} alt={`${proj.name} screenshot`} />
           </div>
           <div className="projects-info row">
-            <div className="col-12 col-sm-6 p-none">
-              <h3 className="font-weight-600 uppercase">{proj.name}</h3>
+            <div className="col-12 col-sm-8 p-none">
+              <h3 className="font-weight-600 uppercase" style={{ lineHeight: '37px' }}>{proj.name}</h3>
               <ul className="project-details">
                 <li>
                   <i className="fa fa-file-text-o"></i>
@@ -70,32 +63,33 @@ const PortfolioSection: FC = () => {
                 </li>
                 <li>
                   <i className="fa fa-user-o"></i>
-                  <span className="font-weight-400 project-label"> Client </span>:
-                  <span className="font-weight-600 uppercase">{proj.client}</span>
+                  <span className="font-weight-400 project-label"> Role </span>:
+                  <span className="font-weight-600 uppercase">{proj.role}</span>
                 </li>
                 <li>
-                  <i className="fa fa-hourglass-o"></i>
-                  <span className="font-weight-400 project-label"> Duration </span>:
-                  <span className="font-weight-600 uppercase">{proj.duration}</span>
+                  <i className="fa fa-check-circle-o"></i>
+                  <span className="font-weight-400 project-label"> Status </span>:
+                  <span className="font-weight-600 uppercase">{proj.status}</span>
                 </li>
                 <li>
                   <i className="fa fa-code"></i>
                   <span className="font-weight-400 project-label"> Technologies</span> :
                   <span className="font-weight-600 uppercase">{proj.technologies}</span>
                 </li>
-                <li>
-                  <i className="fa fa-money"></i>
-                  <span className="font-weight-400 project-label"> Budget</span> :
-                  <span className="font-weight-600 uppercase">{proj.budget}</span>
-                </li>
               </ul>
-              <a href="#" className="btn">
+              <p>{proj.description}</p>
+              <a
+                href={proj.url}
+                className="btn"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <span>
-                  <i className="fa fa-external-link"></i>preview
+                  <i className="fa fa-external-link"></i>view live project
                 </span>
               </a>
             </div>
-            <div className="col-6 p-none text-right">
+            <div className="col-4 p-none text-right">
               <a
                 href="#"
                 className="btn btn-secondary close-project"
