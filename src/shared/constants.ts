@@ -71,6 +71,17 @@ export const projects: PortfolioProject[] = [
 
 export const blogPosts: BlogPost[] = [
   {
+    title: "Building Automatic Failover for My Home-Hosted Portfolio",
+    img: "img/blog/portfolio-failover.jpg",
+    tag: "DevOps & Reliability",
+    date: { day: "03", month: "oct" },
+    des: [
+      "My portfolio normally runs from an Ubuntu laptop at home, but a power or internet outage made the site unavailable. I deployed the same Next.js application to Vercel as a standby without replacing the home server as the primary host.",
+      "A protected Vercel endpoint now checks the home server directly every five minutes. If the check fails, it updates only the portfolio's DuckDNS record to Vercel; when the laptop is healthy again, it automatically points the domain back home.",
+      "The endpoint keeps the DuckDNS token server-side, requires a separate bearer secret, and is triggered by cron-job.org. A real shutdown test confirmed both directions: the portfolio recovered through Vercel and later returned to the home server without a manual DNS change.",
+    ],
+  },
+  {
     title: "Building Role-Based Access Control Beyond the Sidebar",
     img: "img/projects/health-care-admin.png",
     tag: "Security & Architecture",
