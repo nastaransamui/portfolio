@@ -15,6 +15,7 @@ const VideoPlayer: FC<Props> = ({ playing }) => {
       src="img/projects/video.mp4"
       id="video"
       className="responsive-video"
+      aria-label="Project demonstration video"
       controls
       poster="img/projects/project-6.jpg"
     />

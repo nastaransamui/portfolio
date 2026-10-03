@@ -18,7 +18,7 @@ const AboutSection: FC = () => {
         <div className="row personal-info">
           <div className="col-xl-6 col-lg-6 col-md-12 col-sm-12">
             <div className="image-container">
-              <img className="img-fluid d-block" src="img/about.png" alt="" />
+              <img className="img-fluid d-block" src="img/about.png" alt="Majid Vezvaee, frontend engineer" />
             </div>
             <p className="d-block d-md-none">
               I&apos;m a Frontend engineer with experience building React and Next.js applications for healthcare and business platforms.
@@ -63,7 +63,7 @@ const AboutSection: FC = () => {
                 </li>
                 <li>
                   <h6>
-                    <span className="font-weight-600">Langages</span>English
+                    <span className="font-weight-600">Languages</span>English
                   </h6>
                 </li>
                 <li>
@@ -131,7 +131,7 @@ const AboutSection: FC = () => {
                         <i className="fa fa-caret-right"></i>May 2018 – Apr 2020
                       </span>
                       <span className="d-block font-weight-400 uppercase">
-                        Implementation & Account Manage<span className="separator"></span>
+                        Implementation & Account Manager<span className="separator"></span>
                         <span className="font-weight-700">InSource Asia</span>
                       </span>
                     </div>
@@ -309,7 +309,7 @@ const AboutSection: FC = () => {
             <div className="col-12 col-sm-6 col-md-4">
               <span className="skill-text">Flutter</span>
               <div className="chart-bar">
-                <span className="item-progress" data-percent="80" style={{ width: '60%' }}></span>
+                <span className="item-progress" data-percent="60" style={{ width: '60%' }}></span>
                 <span className="percent" style={{ right: 'calc(40% - 21px)' }}>
                   60%<b className="arrow"></b>
                 </span>

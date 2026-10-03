@@ -9,15 +9,13 @@ const BlogModal: FC = () => {
       <div className={`istambul_tm_modalbox ${blogModalOpen ? 'opened' : ''}`}>
         <div className="box_inner">
           <div className="close">
-            <a
-              href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                setBlogModalOpen(false);
-              }}
+            <button
+              type="button"
+              aria-label="Close blog post"
+              onClick={() => setBlogModalOpen(false)}
             >
-              <i className="fa fa-times"></i>
-            </a>
+              <i className="fa fa-times" aria-hidden="true"></i>
+            </button>
           </div>
           <div className="description_wrap">
             <div className="news_popup_details">
@@ -37,7 +35,7 @@ const BlogModal: FC = () => {
               <div className="news_main_title">
                 <h3 style={{ fontFamily: 'ROBOTO_CONDENSED_FONT' }}>{selectedPost?.title || 'title'}</h3>
                 <span>
-                  <a href="#">{selectedPost?.tag || ''}</a>
+                  <span>{selectedPost?.tag || ''}</span>
                 </span>
                 <div></div>
               </div>

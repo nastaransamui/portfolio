@@ -21,44 +21,44 @@ const BlogSection: FC = () => {
             <div key={idx} className="col-12 col-sm-6">
               <article>
                 <figure className="blog-figure">
-                  <a
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
+                  <button
+                    type="button"
+                    className="blog-image-button"
+                    aria-label={`Read ${post.title}`}
+                    onClick={() => {
                       setSelectedPost(post);
                       setBlogModalOpen(true);
                     }}
                   >
                     <img className="img-fluid" src={post.img} alt={post.title} />
-                  </a>
+                  </button>
                   <div className="post-date">
                     <span>{post.date.day}</span>
                     <span>{post.date.month}</span>
                   </div>
                 </figure>
-                <a
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
+                <button
+                  type="button"
+                  className="blog-title-button"
+                  onClick={() => {
                     setSelectedPost(post);
                     setBlogModalOpen(true);
                   }}
                 >
                   <h4>{post.title}</h4>
-                </a>
+                </button>
                 <div className="blog-excerpt">
                   <p>{post.des[0].substring(0, 92)}... </p>
-                  <a
-                    href="#"
+                  <button
+                    type="button"
                     className="btn readmore"
-                    onClick={(e) => {
-                      e.preventDefault();
+                    onClick={() => {
                       setSelectedPost(post);
                       setBlogModalOpen(true);
                     }}
                   >
                     <span>Read more</span>
-                  </a>
+                  </button>
                 </div>
               </article>
             </div>

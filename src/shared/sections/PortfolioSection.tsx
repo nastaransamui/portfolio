@@ -22,25 +22,29 @@ const PortfolioSection: FC = () => {
               <ul className="row" id="portfolio-items">
                 {projects.map((proj, idx) => (
                   <li key={idx} className="col-12 col-md-6 col-lg-4">
-                    <a
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setActiveProject(idx);
-                      }}
+                    <button
+                      type="button"
+                      className="portfolio-project-button"
+                      aria-label={`View details for ${proj.name}`}
+                      onClick={() => setActiveProject(idx)}
                     >
                       <img src={proj.img} alt={proj.name} className="img-fluid" />
                       <div>
                         <span>{proj.name}</span>
                       </div>
-                    </a>
+                    </button>
                   </li>
                 ))}
               </ul>
             </div>
           </div>
         </div>
-        <div className="portfolio-overlay" onClick={() => setActiveProject(null)}></div>
+        <button
+          type="button"
+          className="portfolio-overlay"
+          aria-label="Close project details"
+          onClick={() => setActiveProject(null)}
+        />
       </div>
 
       {/* Project Details Panel */}
@@ -90,18 +94,15 @@ const PortfolioSection: FC = () => {
               </a>
             </div>
             <div className="col-4 p-none text-right">
-              <a
-                href="#"
+              <button
+                type="button"
                 className="btn btn-secondary close-project"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setActiveProject(null);
-                }}
+                onClick={() => setActiveProject(null)}
               >
                 <span>
                   <i className="fa fa-close"></i>Close
                 </span>
-              </a>
+              </button>
             </div>
           </div>
         </div>

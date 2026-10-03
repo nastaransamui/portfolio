@@ -7,6 +7,7 @@ type ContactUsFormType = {
   name: string;
   email: string;
   message: string;
+  website: string;
 }
 interface SubmitMessageType {
   message: string;
@@ -24,44 +25,48 @@ const ContactSection: FC = () => {
     defaultValues: {
       name: '',
       email: '',
-      message: ''
+      message: '',
+      website: '',
     }
   })
 
   const handleContactSubmit = async (data: ContactUsFormType) => {
-    setLoading(true)
-    const res = await fetch('/api/contact', {
-      method: "POST",
-      headers: {
-        'Accept': 'application/json, text/plain, */*',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data)
-    });
-    if (res.status !== 200) {
-      setLoading(false)
-      setSubmitMessage({ message: "Server Error", hasError: true });
-      return
+    setLoading(true);
+    setSubmitMessage(submitInit);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json() as { message?: string; success?: boolean };
+
+      if (!response.ok || !result.success) {
+        throw new Error(result.message || 'Unable to send your message right now.');
+      }
+
+      setSubmitMessage({ message: result.message || 'Thanks, your message has been sent.', hasError: false });
+      reset();
+    } catch (error) {
+      setSubmitMessage({
+        message: error instanceof Error ? error.message : 'Unable to send your message right now.',
+        hasError: true,
+      });
+    } finally {
+      setLoading(false);
+      setTimeout(() => setSubmitMessage(submitInit), 5000);
     }
-    const result = await res.json();
-    const { message, success } = result;
-    if (success) {
-      setLoading(false)
-      setSubmitMessage({ message: message, hasError: false });
-      reset()
-    } else {
-      setLoading(false)
-      setSubmitMessage({ message: "Server Error", hasError: true });
-    }
-    setTimeout(() => {
-      setSubmitMessage(submitInit)
-    }, 5000);
   };
 
   return (
     <section id="contact" className={nav === 'contact' ? 'active' : ''}>
-      {loading && <div className="loading-overlay">
+      {loading && <div className="loading-overlay" role="status" aria-live="polite">
         <div className="spinner"></div>
+        <span className="sr-only">Sending your message</span>
       </div>}
       <div className="contact-container">
         <div className="container page-title text-center">
@@ -69,7 +74,7 @@ const ContactSection: FC = () => {
             get <span>in touch</span>
           </h2>
           <span className="title-head-subtitle">
-            I’m always open to discussing developement  or partnerships.
+            I’m always open to discussing development or partnerships.
           </span>
         </div>
         <div className="container">
@@ -135,13 +140,17 @@ const ContactSection: FC = () => {
             </div>
             <div className="col-12 col-md-8 col-xl-8 rightside">
               <p>
-                If you have any suggestion, project or even you want to say Hello. please fill out the form below and I
-                will reply you shortly.
+                If you have a suggestion, a project, or simply want to say hello, fill out the form below and I’ll reply soon.
               </p>
-              <form className="contactform" noValidate onSubmit={handleSubmit(handleContactSubmit)}>
+              <form className="contactform" noValidate aria-busy={loading} onSubmit={handleSubmit(handleContactSubmit)}>
+                <div className="contact-honeypot" aria-hidden="true">
+                  <label htmlFor="website">Website</label>
+                  <input id="website" type="text" tabIndex={-1} autoComplete="off" {...register('website')} />
+                </div>
                 <div className="row">
                   <div className="form-group col-xl-6" style={{ position: 'relative' }}>
                     <i className="fa fa-user prefix"></i>
+                    <label className="sr-only" htmlFor="name">Your name</label>
                     <input
                       id="name"
                       type="text"
@@ -150,58 +159,82 @@ const ContactSection: FC = () => {
                           e.preventDefault();
                         }
                       }}
-                      {...register('name', { required: 'This field is required' })}
+                      {...register('name', {
+                        required: 'Name is required.',
+                        minLength: { value: 2, message: 'Name must have at least 2 characters.' },
+                        maxLength: { value: 80, message: 'Name cannot exceed 80 characters.' },
+                      })}
                       className="form-control"
                       placeholder="YOUR NAME"
+                      aria-invalid={Boolean(errors.name)}
+                      aria-describedby={errors.name ? 'name-error' : undefined}
                       required
                     />
                     {
-                      errors.name && <span style={{ color: 'crimson', position: 'absolute', left: 25 }}>
+                      errors.name && <span id="name-error" role="alert" style={{ color: 'crimson', position: 'absolute', left: 25 }}>
                         {errors.name.message}
                       </span>
                     }
                   </div>
                   <div className="form-group col-xl-6">
                     <i className="fa fa-envelope prefix"></i>
+                    <label className="sr-only" htmlFor="email">Your email address</label>
                     <input
                       id="email"
                       type="email"
-                      {...register('email', { required: 'This field is required', pattern: { value: emailRegex, message: 'Email should look like an email.' } })}
+                      {...register('email', {
+                        required: 'Email is required.',
+                        maxLength: { value: 254, message: 'Email cannot exceed 254 characters.' },
+                        pattern: { value: emailRegex, message: 'Enter a valid email address.' },
+                      })}
                       className="form-control"
                       placeholder="YOUR EMAIL"
+                      aria-invalid={Boolean(errors.email)}
+                      aria-describedby={errors.email ? 'email-error' : undefined}
                       required
                     />
                     {
-                      errors.email && <span style={{ color: 'crimson', position: 'absolute', left: 25 }}>
+                      errors.email && <span id="email-error" role="alert" style={{ color: 'crimson', position: 'absolute', left: 25 }}>
                         {errors.email.message}
                       </span>
                     }
                   </div>
                   <div className="form-group col-xl-12">
                     <i className="fa fa-comments prefix"></i>
+                    <label className="sr-only" htmlFor="comment">Your message</label>
                     <textarea
                       id="comment"
-                      {...register('message', { required: 'This field is required' })}
+                      {...register('message', {
+                        required: 'Message is required.',
+                        minLength: { value: 10, message: 'Message must have at least 10 characters.' },
+                        maxLength: { value: 3000, message: 'Message cannot exceed 3000 characters.' },
+                      })}
                       className="form-control"
                       placeholder="YOUR MESSAGE"
+                      aria-invalid={Boolean(errors.message)}
+                      aria-describedby={errors.message ? 'message-error' : undefined}
                       required
                     ></textarea>
                     {
-                      errors.message && <span style={{ color: 'crimson', position: 'absolute', left: 25 }}>
+                      errors.message && <span id="message-error" role="alert" style={{ color: 'crimson', position: 'absolute', left: 25 }}>
                         {errors.message.message}
                       </span>
                     }
                   </div>
                 </div>
                 <div className="submit-form">
-                  <button className="btn button-animated" type="submit" name="send">
+                  <button className="btn button-animated" type="submit" name="send" disabled={loading}>
                     <span>
                       <i className="fa fa-send"></i> Send Message
                     </span>
                   </button>
                 </div>
                 <div className="form-message">
-                  <div className={submitMessage.hasError ? 'empty_notice' : "returnmessage"} style={{ display: submitMessage.message !== '' ? 'block' : 'none' }}
+                  <div
+                    className={submitMessage.hasError ? 'empty_notice' : "returnmessage"}
+                    role={submitMessage.hasError ? 'alert' : 'status'}
+                    aria-live="polite"
+                    style={{ display: submitMessage.message !== '' ? 'block' : 'none' }}
                   >
                     <span>{submitMessage.message}</span>
                     {/* <span>Your message has been received, We will contact you soon.</span> */}

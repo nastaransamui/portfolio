@@ -4,9 +4,9 @@ import { useState } from 'react';
 const Slider = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const slides = [
-    { src: 'img/projects/project-8.jpg', alt: 'slide 1' },
-    { src: 'img/projects/project-7.jpg', alt: 'slide 2' },
-    { src: 'img/projects/project-5.jpg', alt: 'slide 3' },
+    { src: 'img/projects/project-8.jpg', alt: 'Project interface screenshot 1' },
+    { src: 'img/projects/project-7.jpg', alt: 'Project interface screenshot 2' },
+    { src: 'img/projects/project-5.jpg', alt: 'Project interface screenshot 3' },
   ];
 
   return (
@@ -22,28 +22,26 @@ const Slider = () => {
           </div>
         ))}
       </div>
-      <a
+      <button
+        type="button"
         className="carousel-control-prev"
-        href="#slider"
-        role="button"
-        onClick={(e) => {
-          e.preventDefault();
+        aria-label="Previous project image"
+        onClick={() => {
           setActiveSlide((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
         }}
       >
         <span className="fa fa-chevron-left carousel-controls" />
-      </a>
-      <a
+      </button>
+      <button
+        type="button"
         className="carousel-control-next"
-        href="#slider"
-        role="button"
-        onClick={(e) => {
-          e.preventDefault();
+        aria-label="Next project image"
+        onClick={() => {
           setActiveSlide((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
         }}
       >
         <span className="fa fa-chevron-right carousel-controls" />
-      </a>
+      </button>
     </div>
   );
 }

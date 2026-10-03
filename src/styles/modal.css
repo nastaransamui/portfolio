@@ -108,10 +108,13 @@
     z-index: 10
 }
 
-.modal__container .istambul_tm_modalbox .close a {
+.modal__container .istambul_tm_modalbox .close button {
     display: block;
     width: 40px;
     height: 40px;
+    padding: 0;
+    background: transparent;
+    cursor: pointer;
     text-decoration: none;
     color: #fff;
     border: 2px solid #fff;
@@ -120,11 +123,11 @@
     transition: all .3s ease
 }
 
-.modal__container .istambul_tm_modalbox .close a:hover {
+.modal__container .istambul_tm_modalbox .close button:hover {
     border-radius: 100%
 }
 
-.modal__container .istambul_tm_modalbox .close a i {
+.modal__container .istambul_tm_modalbox .close button i {
     position: absolute;
     top: 44%;
     left: 50%;
@@ -1761,7 +1764,7 @@
 }
 
 @media (max-width: 1040px) {
-    .light .modal__container .istambul_tm_modalbox .close a {
+    .light .modal__container .istambul_tm_modalbox .close button {
         color:#222;
         border: 2px solid #222
     }
@@ -1824,12 +1827,12 @@
         top: 10px
     }
 
-    .modal__container .istambul_tm_modalbox .close a {
+    .modal__container .istambul_tm_modalbox .close button {
         width: 30px;
         height: 30px
     }
 
-    .modal__container .istambul_tm_modalbox .close a i {
+    .modal__container .istambul_tm_modalbox .close button i {
         font-size: 13px
     }
 

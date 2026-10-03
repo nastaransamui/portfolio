@@ -13,7 +13,7 @@ const HomeSection: FC<Props> = ({ changeNav }) => {
   return (
     <section id="home" className={nav === 'home' ? 'active' : ''}>
       <div className="main-text-container">
-        <img className="leftimagepicture" src="img/profile.png" alt="" />
+        <img className="leftimagepicture" src="img/profile.png" alt="Portrait of Majid Vezvaee" />
         <div className="main-text" id="selector">
           <h3>Hi there !</h3>
           <h1 className="ah-headline d-flex">

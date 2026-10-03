@@ -56,6 +56,17 @@ export const projects: PortfolioProject[] = [
     status: "Live",
     url: "https://mj-portfolio.duckdns.org",
   },
+  {
+    name: "Elizah Business Website",
+    img: "img/projects/elizah-business.png",
+    project: "Business Website",
+    role: "Frontend Development",
+    description:
+      "An earlier responsive business website featuring service pages, language navigation, galleries, articles, team information, contact sections, and carousel-driven content.",
+    technologies: "Next.js, React, Responsive CSS, Slick Carousel",
+    status: "Archived Demo",
+    url: "https://seoproject.vercel.app/",
+  },
 ];
 
 export const blogPosts: BlogPost[] = [
@@ -134,7 +145,7 @@ export const typewriterWords = [
   "a freelancer",
 ];
 
-export const emailRegex = new RegExp(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g);
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const INVALID_NAME_KEYS = [
   "1",

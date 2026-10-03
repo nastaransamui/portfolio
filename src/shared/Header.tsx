@@ -41,16 +41,15 @@ const Header: FC<Props> = ({ changeNav, stretchyRef }) => {
         ref={stretchyRef}
         className={`cd-stretchy-nav ${stretchyOpen ? 'nav-is-visible' : ''}`}
       >
-        <a
+        <button
+          type="button"
           className="cd-nav-trigger"
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            setStretchyOpen(!stretchyOpen);
-          }}
+          aria-label={stretchyOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-expanded={stretchyOpen}
+          onClick={() => setStretchyOpen(!stretchyOpen)}
         >
           <span aria-hidden="true" />
-        </a>
+        </button>
         <ul className="stretchy-nav">
           {navItems.map((item) => (
             <li key={item.id} className={nav === item.id ? 'active' : ''}>

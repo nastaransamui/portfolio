@@ -46,13 +46,14 @@ export default function Home() {
 
     const handleHash = () => {
       const currentHash = window.location.hash.replace('#', '');
-      const nextNav = ['home', 'about', 'work', 'contact', 'blog'].includes(currentHash)
+      const hasValidHash = ['home', 'about', 'work', 'contact', 'blog'].includes(currentHash);
+      const nextNav = hasValidHash
         ? currentHash
         : 'home';
 
       setNav(nextNav);
-      if (window.innerWidth < 1025 && nextNav !== 'home') {
-        setMobileMenuOpen(true);
+      if (window.innerWidth < 1025) {
+        setMobileMenuOpen(hasValidHash);
       }
     };
 
@@ -92,20 +93,26 @@ export default function Home() {
 
       {/* Main Content Area */}
       <main id="main" className={isMobile && mobileMenuOpen ? 'open' : ''}>
-        <span
+        <button
+          type="button"
           className={`back-mobile ${activeProject !== null ? 'close-project' : ''}`}
           id="back-mobile"
+          aria-label={activeProject !== null ? 'Close project details' : 'Back to navigation'}
           onClick={() => {
             if (activeProject !== null) {
               setActiveProject(null);
             } else {
               setMobileMenuOpen(false);
-              changeNav('home');
+              window.history.replaceState(
+                null,
+                '',
+                `${window.location.pathname}${window.location.search}`,
+              );
             }
           }}
         >
           <i className={activeProject !== null ? 'fa fa-close' : 'fa fa-arrow-left'}></i>
-        </span>
+        </button>
 
         {/* Home Section */}
         <HomeSection changeNav={changeNav} />

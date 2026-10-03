@@ -96,6 +96,6 @@ section#blog .post-date,
 body.blog .container-fluid.page-title .content-banner {
 	border-bottom:8px solid #2196F3;
 }
-#portfolio-items li a div {
+#portfolio-items li .portfolio-project-button div {
 	background: #2196F3;
 }

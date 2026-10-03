@@ -24,6 +24,10 @@ body {
   font-size: 0.9em;
   font-weight: 400;
 }
+
+button:focus{
+  outline: none !important;
+}
 /*
 Template Name: Istanbul - Personal Portfolio
 Author: Celtano
@@ -219,6 +223,9 @@ h6 {
 
 .back-mobile {
   display: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
 }
 
 .container {
@@ -680,6 +687,10 @@ html:not(.lt-ie10) .not-animated {
     left: 0;
     height: 60px;
     width: 60px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
     border-radius: 50%;
     /* replace text with image */
     overflow: hidden;
@@ -1807,18 +1818,23 @@ body.light .personal-info ul h6 {
   position: relative;
 }
 
-#portfolio-items li a,
-#portfolio-items li a img {
+#portfolio-items li .portfolio-project-button,
+#portfolio-items li .portfolio-project-button img {
   display: block;
   position: relative;
   border-radius: 4px;
 }
 
-#portfolio-items li a {
+#portfolio-items li .portfolio-project-button {
+  width: 100%;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  cursor: pointer;
   overflow: hidden;
 }
 
-#portfolio-items li a > div {
+#portfolio-items li .portfolio-project-button > div {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -1830,11 +1846,12 @@ body.light .personal-info ul h6 {
   transition: 0.2s;
 }
 
-#portfolio-items li a:hover > div {
+#portfolio-items li .portfolio-project-button:hover > div,
+#portfolio-items li .portfolio-project-button:focus-visible > div {
   opacity: 1;
 }
 
-#portfolio-items li a div {
+#portfolio-items li .portfolio-project-button div {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -1848,7 +1865,7 @@ body.light .personal-info ul h6 {
   align-items: center;
 }
 
-#portfolio-items li a div span {
+#portfolio-items li .portfolio-project-button div span {
   display: block;
   text-transform: uppercase;
   text-align: center;
@@ -1960,15 +1977,20 @@ section#blog figure {
   position: relative;
 }
 
-section#blog figure a {
+section#blog figure .blog-image-button {
   position: relative;
   display: block;
+  width: 100%;
   max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
   overflow: hidden;
   border-radius: 4px;
 }
 
-section#blog figure a img {
+section#blog figure .blog-image-button img {
   width: 100%;
   border-radius: 4px;
   -webkit-transition: all 0.5s ease;
@@ -1978,7 +2000,8 @@ section#blog figure a img {
   display: block;
 }
 
-section#blog figure a:hover img {
+section#blog figure .blog-image-button:hover img,
+section#blog figure .blog-image-button:focus-visible img {
   transform: scale(1.1) !important;
   -o-transform: scale(1.1) !important;
   -moz-transform: scale(1.1) !important;
@@ -2605,6 +2628,44 @@ ul.social-intro li a:hover i {
     margin: 0 auto;
   }
 
+  #home .main-text-container {
+    width: 100%;
+    max-width: none;
+    min-height: 100%;
+    height: auto;
+    margin-left: 0;
+    padding: 70px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #home .leftimagepicture {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: min(240px, 40vw);
+    max-width: 100%;
+    margin: 0 0 28px;
+    border-width: 7px;
+  }
+
+  #home .main-text {
+    display: block;
+    width: 100%;
+    max-width: 680px;
+  }
+
+  #home .main-text p {
+    margin: 16px auto 24px;
+    line-height: 1.75;
+  }
+
+  #home .call-to-actions-home .text-left {
+    text-align: center !important;
+  }
+
   .main-text h1 {
     font-size: 35px;
     margin: 0;
@@ -2648,15 +2709,21 @@ ul.social-intro li a:hover i {
   .navigation {
     width: 100%;
     height: 100%;
-    margin-right: initial;
     margin: 0;
-    position: initial;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    overflow-y: auto;
   }
 
   .navigation li {
-    position: fixed;
-    width: calc(50% - 36px);
-    height: calc(50% - 35px);
+    position: relative;
+    inset: auto !important;
+    width: auto;
+    height: auto;
+    min-height: 120px;
     border-radius: 4px;
     background: #eee;
   }
@@ -2685,27 +2752,8 @@ ul.social-intro li a:hover i {
   }
 
   .navigation li:first-child {
-    display: none;
-  }
-
-  .navigation li:nth-child(2) {
-    left: 24px;
-    top: 24px;
-  }
-
-  .navigation li:nth-child(3) {
-    right: 24px;
-    top: 24px;
-  }
-
-  .navigation li:nth-child(4) {
-    left: 24px;
-    bottom: 24px;
-  }
-
-  .navigation li:nth-child(5) {
-    right: 24px;
-    bottom: 24px;
+    display: block;
+    grid-column: 1 / -1;
   }
 
   .navigation a {
@@ -2856,6 +2904,13 @@ ul.social-intro li a:hover i {
     line-height: 55px;
   }
 
+  .back-mobile.close-project {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 55px;
+  }
+
   .close-project.is-visible {
     display: block;
   }
@@ -2918,18 +2973,44 @@ ul.social-intro li a:hover i {
 }
 
 @media (max-width: 576px) {
-  .navigation li {
-    width: calc(100% - 48px);
-    height: calc(25% - 30px);
+  .navigation {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, minmax(120px, 1fr));
+    gap: 16px;
   }
 
-  .navigation li:nth-child(3) {
-    top: calc(25% + 18px);
+  .navigation li:first-child {
+    grid-column: auto;
   }
 
-  .navigation li:nth-child(4) {
-    bottom: initial;
-    top: calc(50% + 12px);
+  #home .main-text-container {
+    justify-content: flex-start;
+    padding: 68px 24px 30px;
+  }
+
+  #home .leftimagepicture {
+    width: min(160px, 48vw);
+    margin-bottom: 20px;
+    border-width: 5px;
+  }
+
+  #home .main-text h3 {
+    margin-bottom: 8px;
+  }
+
+  #home .main-text p {
+    font-size: 15px;
+    line-height: 1.65;
+  }
+
+  #home .call-to-actions-home a {
+    display: block;
+    width: 100%;
+    margin: 12px 0 0;
+  }
+
+  #home .call-to-actions-home a:first-child {
+    margin-right: 0;
   }
 
   .navigation li a {
@@ -3088,6 +3169,30 @@ ul.social-intro li a:hover i {
   justify-content: center;
   align-items: center;
   z-index: 9999;
+}
+
+.contact-honeypot {
+  display: none;
+}
+
+.blog-title-button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.portfolio-overlay {
+  border: 0;
+  padding: 0;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  border: 0;
+  cursor: pointer;
 }
 
 .spinner {
