@@ -1,0 +1,79 @@
+name: Portfolio failover
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: portfolio-failover
+  cancel-in-progress: true
+
+jobs:
+  check-portfolio:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Check home server and update DuckDNS
+        env:
+          DUCKDNS_TOKEN: ${{ secrets.DUCKDNS_TOKEN }}
+          HOME_IP_DOMAIN: health-care.duckdns.org
+          PORTFOLIO_DOMAIN: mj-portfolio.duckdns.org
+          DUCKDNS_DOMAIN: mj-portfolio
+          VERCEL_IP: 216.198.79.1
+        run: |
+          set -euo pipefail
+
+          if [ -z "$DUCKDNS_TOKEN" ]; then
+            echo "DUCKDNS_TOKEN is not configured."
+            exit 1
+          fi
+
+          HOME_IP=$(getent ahostsv4 "$HOME_IP_DOMAIN" | awk 'NR == 1 { print $1 }')
+          CURRENT_IP=$(getent ahostsv4 "$PORTFOLIO_DOMAIN" | awk 'NR == 1 { print $1 }')
+
+          if ! [[ "$HOME_IP" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
+            echo "Could not resolve a valid home IPv4 address."
+            exit 1
+          fi
+
+          if curl \
+            --fail \
+            --silent \
+            --show-error \
+            --retry 2 \
+            --retry-all-errors \
+            --connect-timeout 5 \
+            --max-time 15 \
+            --resolve "$PORTFOLIO_DOMAIN:443:$HOME_IP" \
+            "https://$PORTFOLIO_DOMAIN/" \
+            --output /dev/null; then
+            TARGET_IP="$HOME_IP"
+            TARGET_NAME="home server"
+          else
+            TARGET_IP="$VERCEL_IP"
+            TARGET_NAME="Vercel fallback"
+          fi
+
+          if [ "$CURRENT_IP" = "$TARGET_IP" ]; then
+            echo "Portfolio already points to the $TARGET_NAME."
+            exit 0
+          fi
+
+          RESPONSE=$(curl \
+            --fail \
+            --silent \
+            --show-error \
+            --get \
+            --data-urlencode "domains=$DUCKDNS_DOMAIN" \
+            --data-urlencode "token=$DUCKDNS_TOKEN" \
+            --data-urlencode "ip=$TARGET_IP" \
+            "https://www.duckdns.org/update")
+
+          if [ "$RESPONSE" != "OK" ]; then
+            echo "DuckDNS rejected the update."
+            exit 1
+          fi
+
+          echo "Portfolio switched to the $TARGET_NAME."
